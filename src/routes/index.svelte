@@ -1,7 +1,8 @@
 <script>
     import supabase from '$lib/db'
 
-    let newTodo
+    let newName
+    let newDescription
     let submit = false
 
     async function getData() {
@@ -22,7 +23,9 @@
       const { data, error } = await supabase
         .from('todos')
         .insert([
-          { 'name': newTodo }
+          { 'name': newName,
+            'description': newDescription
+          }
         ])
       if (error) throw new Error(error.message)
       return data
@@ -53,7 +56,8 @@
 
     <!-- Submit new Todo -->
     <form on:submit|preventDefault={() => submit = true}>
-      <input type="text" bind:value={newTodo}>
+      <input type="text" bind:value={newName}>
+      <input type="text" bind:value={newDescription}>
       <input type="submit" value="Submit" on:click={() => submit = false}>
     </form>
 
